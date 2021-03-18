@@ -1,0 +1,28 @@
+{% extends "MessageBoard/base.html" %}
+{% block content %}
+    {% for result in all_search_results %}
+       {{ .....add according to your model }}
+    {% empty %}
+       add something to show no results
+    {% endfor %}
+
+    <form class="add_your_class" method="GET" action="" >
+        <input class="add_your_class" type="search" name="search"> 
+        <button class="add_your_class" type="submit"> Search </button>
+    </form>
+    
+    {% if is_paginated %}
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{page_obj.previous_page_number}}">Previous</a>
+      {% endif %}
+
+  
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
+
+    {% endif %}
+{% endblock content %}

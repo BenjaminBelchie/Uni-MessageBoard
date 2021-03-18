@@ -1,0 +1,45 @@
+{% extends "MessageBoard/base.html" %}
+{% block content %}
+
+    <form method="get" action="search">
+      <i class="fas fa-search" aria-hidden="true"></i>
+      <input class="form-control form-control-sm ml-0 w-100%" type="text" placeholder="Search" id="id_q" 
+        aria-label="Search">
+    </form>
+
+    <div class='text-center'>
+    <a class="btn btn-outline-dark mb-4" href="{% url 'MessageBoard-home-acending' %}">Sort By Accending</a>
+    <a class="btn btn-outline-dark mb-4" href="{% url 'MessageBoard-home' %}">Sort By Decending</a>
+    </div>
+    {% for post in posts %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+              <small class="text-muted">{{ post.datePosted|date:"d F, Y" }}</small>
+            </div>
+            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+            <p class="article-content">{{ post.content }}</p>
+          </div>
+        </article>
+    {% endfor %}
+    {% if is_paginated %}
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-dark mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-dark mb-4" href="?page={{page_obj.previous_page_number}}">Previous</a>
+      {% endif %}
+
+  
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
+
+    {% endif %}
+{% endblock content %}
+
+<script type="text/javascript">
+  document.getElementById("id_q").value = "{{query}}"
+</script>
